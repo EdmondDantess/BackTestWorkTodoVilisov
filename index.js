@@ -2,9 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import {handleValidationErrors, checkAuth} from './utils/index.js';
-import {UserController, TaskController} from './controllers/index.js';
-import {TaskValidator, AuthValidator} from './validations/index.js';
+import {checkAuth, handleValidationErrors} from './utils/index.js';
+import {TaskController, UserController} from './controllers/index.js';
+import {AuthValidator, TaskValidator} from './validations/index.js';
 
 mongoose
     .connect('mongodb+srv://maximlavrovsky:maximsmongodb@cluster0.aufmgcu.mongodb.net/BacktestWorkTodoVilisov?retryWrites=true&w=majority')
@@ -17,8 +17,8 @@ const app = express()
 app.use(express.json());
 app.use(cors());
 
-app.post('/auth/register', ...AuthValidator.register, handleValidationErrors, UserController.register)
-app.post('/auth/login', ...AuthValidator.login, handleValidationErrors, UserController.login)
+app.post('/auth/register', ...AuthValidator.loginRegister, handleValidationErrors, UserController.register)
+app.post('/auth/login', ...AuthValidator.loginRegister, handleValidationErrors, UserController.login)
 app.get('/auth/me', checkAuth, UserController.getMe)
 
 app.get('/tasks', TaskController.getAll)

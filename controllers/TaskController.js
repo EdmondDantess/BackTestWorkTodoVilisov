@@ -7,7 +7,7 @@ export const getAll = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({
-            message: 'Не удалось получить задачт',
+            message: 'Не удалось получить задачу',
         });
     }
 };

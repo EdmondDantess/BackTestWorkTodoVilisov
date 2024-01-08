@@ -1,54 +1,38 @@
 import jwt from 'jsonwebtoken';
 import UserModel from '../models/User.js';
 
-export const register = async (req, res) => {
-    try {
-        const userFind = await UserModel.findOne({fullName: req.body.fullName});
-        if (userFind) {
-            return res.status(403).json({
-                message: 'Такой пользователь существует'
-            });
-        }
-        const doc = new UserModel({
-            fullName: req.body.fullName,
-        });
-
-        const user = await doc.save();
-
-        const token = jwt.sign(
-            {
-                _id: user._id,
-            },
-            'secret-key',
-            {
-                expiresIn: '30d',
-            },
-        );
-
-        const {...userData} = user._doc;
-
-        res.json({
-            ...userData,
-            token,
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: 'Не удалось зарегистрироваться ', err
-        });
-    }
-};
-
 export const login = async (req, res) => {
     try {
         const user = await UserModel.findOne({fullName: req.body.fullName});
 
         if (!user) {
-            return res.status(404).json({
-                message: 'Пользователь не найден',
-            });
+            try {
+                const doc = new UserModel({
+                    fullName: req.body.fullName,
+                });
+                const user = await doc.save();
+                const token = jwt.sign(
+                    {
+                        _id: user._id,
+                    },
+                    'secret-key',
+                    {
+                        expiresIn: '30d',
+                    },
+                );
+                const {...userData} = user._doc;
+                return res.json({
+                    ...userData,
+                    message: 'Пользователь зарегистрирован',
+                    token,
+                });
+            } catch (err) {
+                console.log(err);
+                res.status(500).json({
+                    message: 'Не удалось зарегистрироваться ', err
+                });
+            }
         }
-
 
         const token = jwt.sign(
             {
@@ -64,6 +48,7 @@ export const login = async (req, res) => {
 
         res.json({
             ...userData,
+            message: 'Успешно вошли',
             token,
         });
     } catch (err) {

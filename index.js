@@ -17,7 +17,6 @@ const app = express()
 app.use(express.json());
 app.use(cors());
 
-app.post('/auth/register', ...AuthValidator.loginRegister, handleValidationErrors, UserController.register)
 app.post('/auth/login', ...AuthValidator.loginRegister, handleValidationErrors, UserController.login)
 app.get('/auth/me', checkAuth, UserController.getMe)
 

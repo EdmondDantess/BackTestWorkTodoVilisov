@@ -78,6 +78,10 @@ export const remove = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
+
+        const findTask = await TaskModel.findOne({title: req.body.title});
+        if (findTask) return res.status(400).json({message: 'такая таска существует'})
+
         const doc = new TaskModel({
             title: req.body.title,
             text: req.body.text,
@@ -91,7 +95,7 @@ export const create = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({
-            message: 'Не удалось создать задачу',
+            message: 'Не удалось создать задачу, возможна она уже существует',
             err
         });
     }

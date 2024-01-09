@@ -26,6 +26,6 @@ app.delete('/tasks/:id', checkAuth, TaskController.remove)
 app.post('/tasks', checkAuth, ...TaskValidator.taskCreate, handleValidationErrors, TaskController.create)
 app.patch('/tasks/:id', checkAuth, ...TaskValidator.taskUpdate, handleValidationErrors, TaskController.update)
 
-app.listen(4444, () => {
+app.listen(4444, ()  => {
     console.log('Server OK...')
 })

@@ -85,7 +85,7 @@ export const create = async (req, res) => {
         const doc = new TaskModel({
             title: req.body.title,
             text: req.body.text,
-            status: 'pending',
+            status: 'Ожидание',
             user: req.userId,
         });
 

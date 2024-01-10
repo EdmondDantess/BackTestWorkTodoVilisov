@@ -7,7 +7,7 @@ import {TaskController, UserController} from './controllers/index.js';
 import {AuthValidator, TaskValidator} from './validations/index.js';
 
 mongoose
-    .connect('mongodb+srv://maximlavrovsky:maximsmongodb@cluster0.aufmgcu.mongodb.net/BacktestWorkTodoVilisov?retryWrites=true&w=majority')
+    .connect(`mongodb+srv://maximlavrovsky:maximsmongodb@cluster0.aufmgcu.mongodb.net/BacktestWorkTodoVilisov?retryWrites=true&w=majority`)
     .then(() => console.log('DB is OK...'))
     .catch((e) => {
         console.log('DB error', e);
@@ -26,6 +26,6 @@ app.delete('/tasks/:id', checkAuth, TaskController.remove)
 app.post('/tasks', checkAuth, ...TaskValidator.taskCreate, handleValidationErrors, TaskController.create)
 app.patch('/tasks/:id', checkAuth, ...TaskValidator.taskUpdate, handleValidationErrors, TaskController.update)
 
-app.listen(4444, ()  => {
+app.listen(4444, () => {
     console.log('Server OK...')
 })

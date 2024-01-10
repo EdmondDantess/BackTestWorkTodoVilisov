@@ -15,7 +15,12 @@ mongoose
 
 const app = express()
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: '*',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+}));
 
 app.post('/auth/login', ...AuthValidator.loginRegister, handleValidationErrors, UserController.login)
 app.get('/auth/me', checkAuth, UserController.getMe)
